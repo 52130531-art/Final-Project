@@ -1,8 +1,11 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 function Header() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { isAuthenticated, user, logout } = useAuth();
   
   const getActivePage = () => {
     const path = location.pathname;
@@ -13,6 +16,11 @@ function Header() {
     if (path === '/needy-requests') return 'Needy Requests';
     if (path === '/donor-requests') return 'Donor Requests';
     return 'Home';
+  };
+  
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
   };
   
   const activePage = getActivePage();
@@ -45,26 +53,45 @@ function Header() {
               <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarNav">
-              <ul className="navbar-nav ms-auto">
-                <li className="nav-item">
-                  <Link className={`nav-link ${activePage === 'Home' ? 'active' : ''}`} to="/">Home</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className={`nav-link ${activePage === 'Services' ? 'active' : ''}`} to="/services">Services</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className={`nav-link ${activePage === 'Contact' ? 'active' : ''}`} to="/contact">Contact</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className={`nav-link ${activePage === 'About' ? 'active' : ''}`} to="/about">About</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className={`nav-link ${activePage === 'Needy Requests' ? 'active' : ''}`} to="/needy-requests">Needy Requests</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className={`nav-link ${activePage === 'Donor Requests' ? 'active' : ''}`} to="/donor-requests">Donor Requests</Link>
-                </li>
-              </ul>
+              {isAuthenticated ? (
+                <>
+                  <ul className="navbar-nav ms-auto">
+                    <li className="nav-item">
+                      <Link className={`nav-link ${activePage === 'Home' ? 'active' : ''}`} to="/">Home</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className={`nav-link ${activePage === 'Services' ? 'active' : ''}`} to="/services">Services</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className={`nav-link ${activePage === 'Contact' ? 'active' : ''}`} to="/contact">Contact</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className={`nav-link ${activePage === 'About' ? 'active' : ''}`} to="/about">About</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className={`nav-link ${activePage === 'Needy Requests' ? 'active' : ''}`} to="/needy-requests">Needy Requests</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className={`nav-link ${activePage === 'Donor Requests' ? 'active' : ''}`} to="/donor-requests">Donor Requests</Link>
+                    </li>
+                  </ul>
+                  <div className="d-flex align-items-center ms-3">
+                    <span className="text-light me-3">{user?.name || user?.email}</span>
+                    <button className="btn btn-outline-light btn-sm" onClick={handleLogout}>
+                      Logout
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <ul className="navbar-nav ms-auto">
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/login">Login</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/signup">Sign Up</Link>
+                  </li>
+                </ul>
+              )}
             </div>
           </div>
         </nav>
