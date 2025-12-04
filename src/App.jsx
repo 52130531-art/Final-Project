@@ -1,7 +1,9 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+
 import { AuthProvider, useAuth } from './context/AuthContext';
+
 import Home from './pages/Home';
 import Services from './pages/Services';
 import Contact from './pages/Contact';
@@ -11,6 +13,12 @@ import DonorRequests from './pages/DonorRequests';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import ProtectedRoute from './components/ProtectedRoute';
+
+import ProofUpload from "./pages/ProofUpload";
+import DonatePage from "./pages/DonatePage";
+import FoodDonation from "./pages/FoodDonation";
+import ClothesDonation from "./pages/ClothesDonation";
+import MoneyDonation from "./pages/MoneyDonation";
 
 function AppRoutes() {
   const { isAuthenticated, loading } = useAuth();
@@ -27,17 +35,19 @@ function AppRoutes() {
 
   return (
     <Routes>
-      {/* Public routes - redirect to login if not authenticated */}
+
+      {/* Public routes */}
       <Route 
         path="/login" 
         element={isAuthenticated ? <Navigate to="/" replace /> : <Login />} 
       />
+
       <Route 
         path="/signup" 
         element={isAuthenticated ? <Navigate to="/" replace /> : <SignUp />} 
       />
-      
-      {/* Protected routes - require authentication */}
+
+      {/* Protected Routes */}
       <Route 
         path="/" 
         element={
@@ -46,6 +56,7 @@ function AppRoutes() {
           </ProtectedRoute>
         } 
       />
+
       <Route 
         path="/services" 
         element={
@@ -54,6 +65,7 @@ function AppRoutes() {
           </ProtectedRoute>
         } 
       />
+
       <Route 
         path="/contact" 
         element={
@@ -62,6 +74,7 @@ function AppRoutes() {
           </ProtectedRoute>
         } 
       />
+
       <Route 
         path="/about" 
         element={
@@ -70,6 +83,7 @@ function AppRoutes() {
           </ProtectedRoute>
         } 
       />
+
       <Route 
         path="/needy-requests" 
         element={
@@ -78,6 +92,7 @@ function AppRoutes() {
           </ProtectedRoute>
         } 
       />
+
       <Route 
         path="/donor-requests" 
         element={
@@ -86,9 +101,31 @@ function AppRoutes() {
           </ProtectedRoute>
         } 
       />
-      
-      {/* Redirect any unknown routes to home */}
+
+      {/* 🔥 Pages you added: MUST be protected too */}
+      <Route 
+        path="/proof-upload" 
+        element={
+          <ProtectedRoute>
+            <ProofUpload />
+          </ProtectedRoute>
+        } 
+      />
+
+      <Route 
+        path="/donate" 
+        element={
+          <ProtectedRoute>
+            <DonatePage />
+          </ProtectedRoute>
+        } 
+      />
+
+      {/* Redirect unknown paths */}
       <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="/donate-food" element={<FoodDonation />} />
+  <Route path="/donate-clothes" element={<ClothesDonation />} />
+  <Route path="/donate-money" element={<MoneyDonation />} />
     </Routes>
   );
 }
@@ -104,3 +141,4 @@ function App() {
 }
 
 export default App;
+

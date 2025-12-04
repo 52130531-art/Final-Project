@@ -1383,6 +1383,7 @@ body {
   position: relative;
   z-index: 1;
   margin-bottom: 3rem;
+  color:#d2691e;
   animation: fadeInUp 0.6s ease-out;
 }
 

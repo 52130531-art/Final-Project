@@ -15,6 +15,9 @@ function Header() {
     if (path === '/about') return 'About';
     if (path === '/needy-requests') return 'Needy Requests';
     if (path === '/donor-requests') return 'Donor Requests';
+    if (path === '/donate-food') return 'Donate Food';
+    if (path === '/donate-clothes') return 'Donate Clothes';
+    if (path === '/donate-money') return 'Donate Money';
     return 'Home';
   };
   
