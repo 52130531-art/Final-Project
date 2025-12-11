@@ -113,7 +113,7 @@ function AppRoutes() {
       />
 
       <Route 
-        path="/donate" 
+        path="/donate-page" 
         element={
           <ProtectedRoute>
             <DonatePage />

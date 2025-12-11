@@ -32,40 +32,8 @@ function SignUp() {
     setLoading(true);
 
     try {
-      // Store user with password for login (in real app, password would be hashed)
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      const existingUser = users.find(u => u.email === email);
-
-      const response = await fetch("http://localhost:5000/auth/users", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ name, email, password })
-      });
-      const data = await response.json();
-      console.log(data);
-
-      if (existingUser) {
-        setError('Email already registered. Please login instead.');
-        setLoading(false);
-        return;
-      }
-
-      // Add user to users list
-      const newUser = {
-        name,
-        email,
-        password, // In production, this should be hashed
-        createdAt: new Date().toISOString()
-      };
-      users.push(newUser);
-
-
-      localStorage.setItem('users', JSON.stringify(users));
-
-      // Sign up the user
-      await signUp({ name, email });
+      // Sign up the user using AuthContext (which handles API call)
+      await signUp({ name, email, password });
       navigate('/');
     } catch (err) {
       setError(err.message || 'Failed to sign up. Please try again.');

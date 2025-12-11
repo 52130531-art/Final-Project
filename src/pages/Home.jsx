@@ -15,7 +15,7 @@ function Home() {
             <div className="col-12 text-center">
               <h1 className="hero-heading">We want to help people</h1>
               <p className="hero-subheading">We're dedicated to helping our clients achieve their goals.</p>
-              <button className="btn btn-hero">Learn More</button>
+              {/* <button className="btn btn-hero">Learn More</button> */}
             </div>
           </div>
         </div>

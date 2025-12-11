@@ -10,27 +10,58 @@ function Contact() {
     phone: '',
     message: ''
   });
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
+  const [processing, setProcessing] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
+    // Clear error when user starts typing
+    if (error) setError(null);
+    if (success) setSuccess(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    alert('Thank you for your message! We will get back to you soon.');
-    // Reset form
-    setFormData({
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      message: ''
-    });
+    setProcessing(true);
+    setError(null);
+    setSuccess(false);
+
+    try {
+      const response = await fetch('http://localhost:5000/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccess(true);
+        // Reset form
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          message: ''
+        });
+        // Show success message
+        alert(data.message || 'Thank you for your message! We will get back to you soon.');
+      } else {
+        setError(data.error || 'Failed to send your message. Please try again.');
+      }
+    } catch (err) {
+      setError('An error occurred. Please check your connection and try again.');
+      console.error('Contact form error:', err);
+    } finally {
+      setProcessing(false);
+    }
   };
 
   return (
@@ -119,10 +150,32 @@ function Contact() {
                       ></textarea>
                     </div>
 
+                    {/* Error Message */}
+                    {error && (
+                      <div className="col-12">
+                        <div className="alert alert-danger" role="alert" style={{ marginTop: '10px' }}>
+                          {error}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Success Message */}
+                    {success && (
+                      <div className="col-12">
+                        <div className="alert alert-success" role="alert" style={{ marginTop: '10px' }}>
+                          Thank you for your message! We will get back to you soon.
+                        </div>
+                      </div>
+                    )}
+
                     {/* Submit Button */}
                     <div className="col-12 text-center">
-                      <button type="submit" className="btn btn-contact-submit">
-                        Send
+                      <button 
+                        type="submit" 
+                        className="btn btn-contact-submit"
+                        disabled={processing}
+                      >
+                        {processing ? 'Sending...' : 'Send'}
                       </button>
                     </div>
                   </div>

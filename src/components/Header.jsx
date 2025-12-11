@@ -14,10 +14,10 @@ function Header() {
     if (path === '/contact') return 'Contact';
     if (path === '/about') return 'About';
     if (path === '/needy-requests') return 'Needy Requests';
-    if (path === '/donor-requests') return 'Donor Requests';
+    if (path === '/donate-page') return 'Donor Page';
     if (path === '/donate-food') return 'Donate Food';
     if (path === '/donate-clothes') return 'Donate Clothes';
-    if (path === '/donate-money') return 'Donate Money';
+    if (path === '/donor-requests') return 'Donate Money';
     return 'Home';
   };
   
@@ -75,7 +75,7 @@ function Header() {
                       <Link className={`nav-link ${activePage === 'Needy Requests' ? 'active' : ''}`} to="/needy-requests">Needy Requests</Link>
                     </li>
                     <li className="nav-item">
-                      <Link className={`nav-link ${activePage === 'Donor Requests' ? 'active' : ''}`} to="/donor-requests">Donor Requests</Link>
+                      <Link className={`nav-link ${activePage === 'Donate Page' ? 'active' : ''}`} to="/donate-page">Donate Page</Link>
                     </li>
                   </ul>
                   <div className="d-flex align-items-center ms-3">

@@ -1,8 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 function DonatePage() {
+  const navigate = useNavigate();
   return (
     <div className="app-container">
       <div className="page-top-border"></div>
@@ -25,7 +27,7 @@ function DonatePage() {
               <div className="row g-4">
 
                 {/* Option 1 – Food */}
-                <div className="col-md-4">
+                {/* <div className="col-md-4">
                   <div className="donate-box">
                   
                     <h3 className="donate-option-title">Food Support</h3>
@@ -36,10 +38,10 @@ function DonatePage() {
                       Donate Food
                     </button>
                   </div>
-                </div>
+                </div> */}
 
                 {/* Option 2 – Clothes */}
-                <div className="col-md-4">
+                {/* <div className="col-md-4">
                   <div className="donate-box">
             
                     <h3 className="donate-option-title">Clothes</h3>
@@ -50,7 +52,7 @@ function DonatePage() {
                       Donate Clothes
                     </button>
                   </div>
-                </div>
+                </div> */}
 
                 {/* Option 3 – Money */}
                 <div className="col-md-4">
@@ -60,7 +62,10 @@ function DonatePage() {
                     <p className="donate-option-text">
                       Support urgent financial or medical needs.
                     </p>
-                    <button className="btn btn-donor-submit w-100">
+                    <button 
+                      className="btn btn-donor-submit w-100"
+                      onClick={() => navigate('/donor-requests')}
+                    >
                       Donate Money
                     </button>
                   </div>

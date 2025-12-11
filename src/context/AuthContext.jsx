@@ -28,34 +28,63 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const signUp = (userData) => {
-    // In a real app, this would make an API call
-    // For now, we'll just store in localStorage
-    const newUser = {
-      id: Date.now().toString(),
-      email: userData.email,
-      name: userData.name,
-      createdAt: new Date().toISOString()
-    };
-    localStorage.setItem('user', JSON.stringify(newUser));
-    setUser(newUser);
-    return Promise.resolve(newUser);
+  const signUp = async (userData) => {
+    try {
+      const response = await fetch('http://localhost:5000/auth/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: userData.name,
+          email: userData.email,
+          password: userData.password,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        if (response.status === 409) {
+          throw new Error('User already exists');
+        }
+        throw new Error(errorText || 'Failed to sign up');
+      }
+
+      const newUser = await response.json();
+      localStorage.setItem('user', JSON.stringify(newUser));
+      setUser(newUser);
+      return newUser;
+    } catch (error) {
+      console.error('Sign up error:', error);
+      throw error;
+    }
   };
 
-  const login = (email, password) => {
-    // In a real app, this would make an API call
-    // For now, we'll check if user exists in localStorage
-    const storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
-    const foundUser = storedUsers.find(u => u.email === email && u.password === password);
-    
-    if (foundUser) {
-      const userData = { ...foundUser };
-      delete userData.password; // Don't store password in user state
+  const login = async (email, password) => {
+    try {
+      const response = await fetch('http://localhost:5000/auth/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        if (response.status === 401) {
+          throw new Error('Invalid email or password');
+        }
+        throw new Error(errorText || 'Failed to login');
+      }
+
+      const userData = await response.json();
       localStorage.setItem('user', JSON.stringify(userData));
       setUser(userData);
-      return Promise.resolve(userData);
-    } else {
-      return Promise.reject(new Error('Invalid email or password'));
+      return userData;
+    } catch (error) {
+      console.error('Login error:', error);
+      throw error;
     }
   };
 

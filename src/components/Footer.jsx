@@ -35,7 +35,7 @@ function Footer() {
           <div className="col-lg-2 col-md-6 col-sm-12">
             <h5 className="footer-title">Quick Links</h5>
             <ul className="footer-links">
-              <li><a href="/">Home</a></li>
+              <li><a href="/Home">Home</a></li>
               <li><a href="/about">About</a></li>
               <li><a href="/services">Services</a></li>
               <li><a href="/contact">Contact</a></li>

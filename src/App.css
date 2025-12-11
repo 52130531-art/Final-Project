@@ -129,7 +129,7 @@ body {
 
 /* Hero Section */
 .hero-section {
-  padding: 5rem 0;
+  padding: 1rem 0;
   position: relative;
   background-color: var(--dark-teal);
   min-height: 60vh;
@@ -201,7 +201,7 @@ body {
 
 /* Content Section */
 .content-section {
-  padding: 5rem 0;
+  padding: 1rem 0;
   background-color: var(--dark-teal);
 }
 
